@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="tljh-voila-gallery",
+    name="neurolang-gallery",
     version="0.0.1",
     entry_points={
         "tljh": ["tljh_voila_gallery = tljh_voila_gallery"],
