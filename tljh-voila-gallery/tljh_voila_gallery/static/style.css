@@ -1,30 +1,30 @@
 /* Main page areas */
 
-.voila-white {
-    background: white;
-    color: #222;
+.neurolang-white {
+    background: #f4f4f2;
+    color: #495464;
     padding: 20px;
 }
 
-.voila-white a {
+.neurolang-white a {
     color: #ddd;
 }
 
-.voila-white a:hover {
+.neurolang-white a:hover {
     color: #eee;
 }
 
-.voila-blue {
-    background: #5dbcaf;
-    color: white;
+.neurolang-blue {
+    background: #495464;
+    color: #bbbfca;
     padding: 20px;
 }
 
-.voila-blue a {
+.neurolang-blue a {
     color: #ddd;
 }
 
-.voila-blue a:hover {
+.neurolang-blue a:hover {
     color: #eee;
 }
 
