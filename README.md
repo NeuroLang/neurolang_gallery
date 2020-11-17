@@ -1,47 +1,49 @@
-# Voilà Gallery plugin for The Littlest JupyterHub
+# Neurolang Gallery plugin for The Littlest JupyterHub
 
-![voila-gallery-logo](./voila-gallery.svg)
+A plugin for [The Littlest JupyterHub (TLJH)](https://tljh.jupyter.org) that installs a [Voilà](https://voila-gallery.org/) Gallery for [neurolang_web](https://github.com/NeuroLang/neurolang_web) example notebooks.
 
-A plugin for [The Littlest JupyterHub (TLJH)](https://tljh.jupyter.org) that installs a [Voilà](https://voila-dashboards/voila) Gallery.
+## Installation
 
-## Install
-
-To deploy a new instance of the gallery as a plugin for The Littlest JupyterHub:
-
-1. Fork the repo: https://github.com/voila-dashboards/tljh-voila-gallery
-2. Edit `tljh-voila-gallery/tljh_voila_gallery/gallery.yaml` with your own set of examples
-3. Follow [one of the tutorials to install TLJH](https://tljh.jupyter.org/en/latest/#installation)
-4. At the step asking for user data, use the following command:
+To install an instance of neurolang-gallery as a plugin for The Littlest JupyterHub:
 
 ```
-#!/bin/bash
-curl https://raw.githubusercontent.com/jupyterhub/the-littlest-jupyterhub/master/bootstrap/bootstrap.py \
- | sudo python3 - \
-   --plugin git+https://github.com/<your-username>/tljh-voila-gallery@master#"egg=tljh-voila-gallery&subdirectory=tljh-voila-gallery"
+$ sudo apt install python3 python3-dev git curl
+
+$ curl -L https://tljh.jupyter.org/bootstrap.py  | sudo python3 - --plugin \
+git+https://github.com/NeuroLang/neurolang_gallery@master#"egg=neurolang-gallery&subdirectory=tljh-voila-gallery"
 ```
-5. The install process might take between 5 and 10 minutes to complete.
-6. Dependending on the method and cloud provider chosen in Step 1, you will get the public IP of the server, which can be used to access the gallery
 
-## Looking at the builder service logs
 
-On the server, run `sudo journalctl -u tljh-voila-gallery-builder.service`
+This will install [The Littlest JupyterHub](https://github.com/jupyterhub/the-littlest-jupyterhub) and neurolang-gallery as a plugin.
 
-## Going back to the gallery screen
+The install process might take between 5 and 10 minutes to complete. 
 
-You can go back to the gallery landing page using the back button of the web browser.
+The gallery will be available at [localhost](http://localhost).
 
-## Development
+## Modifying the gallery
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) to know how to contribute and set up a development environment.
+[gallery.yaml](./tljh-voila-gallery/tljh_voila_gallery/gallery.yaml)  file defines which notebooks to display in the gallery. This file should be edited to change the contents of the gallery.
 
-## Related projects
+## How it works
+The application installs TLJH which comes with traefik.service that runs a [traefik](https://github.com/traefik/traefik) reverse proxy.
 
-There is a public gallery of Voilà examples, which can be found at [voila-gallery.org](https://voila-gallery.org). The source for this gallery is available at https://github.com/voila-gallery/voila-gallery.github.io.
+It installs and starts the systemd service  [tljh-voila-gallery-builder.service](./tljh-voila-gallery/tljh_voila_gallery/systemd-units/tljh-voila-gallery-builder.service) to create a Docker image for each entry in the [gallery.yaml](./tljh-voila-gallery/tljh_voila_gallery/gallery.yaml) file. [repo2docker](https://github.com/jupyterhub/repo2docker) is used to create Docker images.
+
+It takes advantage of [JupyterHub Docker Spawner](https://github.com/jupyterhub/dockerspawner) to spawn single user notebook servers in Docker containers. Additional configuration options can be set in [\_\_init\_\_.py](./tljh-voila-gallery/tljh_voila_gallery/__init__.py) file. 
+
+### Looking at service logs
+
+On the server, run 
+
+#### builder service 
+
+`sudo journalctl -u tljh-voila-gallery-builder.service`
+
+#### traefik service
+
+`sudo journalctl -u traefik.service`
 
 ## License
-
-We use a shared copyright model that enables all contributors to maintain the
-copyright on their contributions.
 
 This software is licensed under the BSD-3-Clause license. See the
 [LICENSE](LICENSE) file for details.
