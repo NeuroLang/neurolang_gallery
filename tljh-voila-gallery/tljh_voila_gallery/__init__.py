@@ -48,7 +48,7 @@ class GallerySpawner(DockerSpawner):
         self.image = self.user_options['image']
 
         self.volumes['neurolang_volume'] = {
-            'bind': '/home/jovyan/notebooks',
+            'bind': '/home/jovyan/notebooks/neurolang_data',
             'mode': 'rw',
         }
         return super().start()
