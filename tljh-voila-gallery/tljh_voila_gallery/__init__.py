@@ -46,6 +46,11 @@ class GallerySpawner(DockerSpawner):
         if 'image' not in self.user_options:
             raise web.HTTPError(400, "image required")
         self.image = self.user_options['image']
+
+        self.volumes['neurolang_volume'] = {
+            'bind': '/home/jovyan/notebooks',
+            'mode': 'rw',
+        }
         return super().start()
 
 
