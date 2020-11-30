@@ -27,9 +27,21 @@ The gallery will be available at [localhost](http://localhost).
 ## How it works
 The application installs TLJH which comes with traefik.service that runs a [traefik](https://github.com/traefik/traefik) reverse proxy.
 
-It installs and starts the systemd service  [tljh-voila-gallery-builder.service](./tljh-voila-gallery/tljh_voila_gallery/systemd-units/tljh-voila-gallery-builder.service) to create a Docker image for each entry in the [gallery.yaml](./tljh-voila-gallery/tljh_voila_gallery/gallery.yaml) file. [repo2docker](https://github.com/jupyterhub/repo2docker) is used to create Docker images.
+It installs and starts the systemd service  [tljh-voila-gallery-builder.service](./tljh-voila-gallery/tljh_voila_gallery/systemd-units/tljh-voila-gallery-builder.service) to create a Docker image for each entry in the [gallery.yaml](./tljh-voila-gallery/tljh_voila_gallery/gallery.yaml) file. [repo2docker](https://github.com/jupyterhub/repo2docker) is used to create Docker images. `repo2docker` options are specified in [build_images.py](https://github.com/NeuroLang/neurolang_gallery/blob/master/tljh-voila-gallery/tljh_voila_gallery/build_images.py) file.
 
 It takes advantage of [JupyterHub Docker Spawner](https://github.com/jupyterhub/dockerspawner) to spawn single user notebook servers in Docker containers. Additional configuration options can be set in [\_\_init\_\_.py](./tljh-voila-gallery/tljh_voila_gallery/__init__.py) file. 
+
+
+### Updating gallery installation
+
+shell
+```
+$ sudo /opt/tljh/hub/bin/python3 -m pip install -U  git+https://github.com/NeuroLang/neurolang_gallery@master#"egg=neurolang-gallery&subdirectory=tljh-voila-gallery"
+
+$ sudo systemctl restart jupyterhub.service
+
+$ sudo systemctl status jupyterhub.service
+```
 
 ### Looking at service logs
 
