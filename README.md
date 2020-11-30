@@ -49,11 +49,11 @@ On the server, run
 
 #### builder service 
 
-`sudo journalctl -u tljh-voila-gallery-builder.service`
+`$ sudo journalctl -u tljh-voila-gallery-builder.service`
 
 #### traefik service
 
-`sudo journalctl -u traefik.service`
+`$ sudo journalctl -u traefik.service`
 
 ## License
 
