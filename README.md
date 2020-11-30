@@ -34,13 +34,22 @@ It takes advantage of [JupyterHub Docker Spawner](https://github.com/jupyterhub/
 
 ### Updating gallery installation
 
-shell
+If update is due to a change in the **neurolang_gallery** project:
+
 ```
-$ sudo /opt/tljh/hub/bin/python3 -m pip install -U  git+https://github.com/NeuroLang/neurolang_gallery@master#"egg=neurolang-gallery&subdirectory=tljh-voila-gallery"
+$ sudo /opt/tljh/hub/bin/python3 -m pip install -U  \
+git+https://github.com/NeuroLang/neurolang_gallery@master#"egg=neurolang-gallery&subdirectory=tljh-voila-gallery"
 
 $ sudo systemctl restart jupyterhub.service
 
 $ sudo systemctl status jupyterhub.service
+```
+
+If container images should be regenerated: 
+
+```
+$ curl -L https://tljh.jupyter.org/bootstrap.py  | sudo python3 - --plugin \
+git+https://github.com/NeuroLang/neurolang_gallery@master#"egg=neurolang-gallery&subdirectory=tljh-voila-gallery"
 ```
 
 ### Looking at service logs
