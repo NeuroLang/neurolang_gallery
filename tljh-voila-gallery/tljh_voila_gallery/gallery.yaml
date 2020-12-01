@@ -2,14 +2,14 @@ examples:
   destrieux:
     title: Destrieux
     description: Run queries using Neurolang library with destrieux cortical atlas (2009) dataset and explore results.
-    url: voila/render/notebooks/Destrieux.py
+    url: voila/render/gallery/Destrieux.py
     repo_url: https://github.com/NeuroLang/neurolang_web
     ref: master
     image_url: https://avatars2.githubusercontent.com/u/35116292?s=200&v=4
   neurosynth:
     title: NeuroSynth
     description: Run queries using Neurolang library with neurosynth dataset and explore results.
-    url: voila/render/notebooks/NeuroSynth.py
+    url: voila/render/gallery/NeuroSynth.py
     repo_url: https://github.com/NeuroLang/neurolang_web
     ref: master
     image_url: https://avatars2.githubusercontent.com/u/35116292?s=200&v=4
