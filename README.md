@@ -34,8 +34,8 @@ It installs and starts the systemd service  [tljh-voila-gallery-builder.service]
 It takes advantage of [JupyterHub Docker Spawner](https://github.com/jupyterhub/dockerspawner) to spawn single user notebook servers in Docker containers. Additional configuration options can be set in [\_\_init\_\_.py](./tljh-voila-gallery/tljh_voila_gallery/__init__.py) file. 
 
 
-Note:
------
+### Note
+
 neurolang_gallery project displays notebooks from [neurolang_web]() project. 3 basic modifications are made in [\_\_init\_\_.py](./tljh-voila-gallery/tljh_voila_gallery/__init__.py) file to display the notebooks correctly and efficiently.
 
 * notebooks use [neurolang_ipywidgets](https://github.com/NeuroLang/neurolang_ipywidgets). To be able to use nbextenssions `--VoilaConfiguration.enable_nbextensions=True` flag should be set while spawning notebooks as in https://github.com/NeuroLang/neurolang_gallery/blob/0ec4ab84cd4686b49e5363b7fdadcfd9e428bb33/tljh-voila-gallery/tljh_voila_gallery/__init__.py#L38.
