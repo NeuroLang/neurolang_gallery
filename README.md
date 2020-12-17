@@ -27,10 +27,31 @@ The gallery will be available at [localhost](http://localhost).
 ## How it works
 The application installs TLJH which comes with traefik.service that runs a [traefik](https://github.com/traefik/traefik) reverse proxy.
 
-It installs and starts the systemd service  [tljh-voila-gallery-builder.service](./tljh-voila-gallery/tljh_voila_gallery/systemd-units/tljh-voila-gallery-builder.service) to create a Docker image for each entry in the [gallery.yaml](./tljh-voila-gallery/tljh_voila_gallery/gallery.yaml) file. [repo2docker](https://github.com/jupyterhub/repo2docker) is used to create Docker images. `repo2docker` options are specified in [build_images.py](https://github.com/NeuroLang/neurolang_gallery/blob/master/tljh-voila-gallery/tljh_voila_gallery/build_images.py) file.
+It installs and starts the systemd service  [tljh-voila-gallery-builder.service](./tljh-voila-gallery/tljh_voila_gallery/systemd-units/tljh-voila-gallery-builder.service) to create a Docker image for each entry in the [gallery.yaml](./tljh-voila-gallery/tljh_voila_gallery/gallery.yaml) file. 
+
+[repo2docker](https://github.com/jupyterhub/repo2docker) is used to create Docker images. `repo2docker` options are specified in [build_images.py](https://github.com/NeuroLang/neurolang_gallery/blob/master/tljh-voila-gallery/tljh_voila_gallery/build_images.py) file.
 
 It takes advantage of [JupyterHub Docker Spawner](https://github.com/jupyterhub/dockerspawner) to spawn single user notebook servers in Docker containers. Additional configuration options can be set in [\_\_init\_\_.py](./tljh-voila-gallery/tljh_voila_gallery/__init__.py) file. 
 
+
+Note:
+-----
+neurolang_gallery project displays notebooks from [neurolang_web]() project. 3 basic modifications are made in [\_\_init\_\_.py](./tljh-voila-gallery/tljh_voila_gallery/__init__.py) file to display the notebooks correctly and efficiently.
+
+* notebooks use [neurolang_ipywidgets](https://github.com/NeuroLang/neurolang_ipywidgets). To be able to use nbextenssions `--VoilaConfiguration.enable_nbextensions=True` flag should be set while spawning notebooks as in https://github.com/NeuroLang/neurolang_gallery/blob/0ec4ab84cd4686b49e5363b7fdadcfd9e428bb33/tljh-voila-gallery/tljh_voila_gallery/__init__.py#L38.
+
+* notebooks are in `.py` format rather than `.ipynb` format. To display the notebooks correctly `--VoilaConfiguration.extension_language_mapping={".py": "python"}` flag should be set as in https://github.com/NeuroLang/neurolang_gallery/blob/0ec4ab84cd4686b49e5363b7fdadcfd9e428bb33/tljh-voila-gallery/tljh_voila_gallery/__init__.py#L39.
+
+* notebooks download data. A shared volume is used not to download the same data for each generated container. This is possible by adding the following line:
+
+```
+self.volumes['neurolang_volume'] = {
+            'bind': '/home/jovyan/notebooks/neurolang_data',
+            'mode': 'rw',
+        }
+```
+
+in https://github.com/NeuroLang/neurolang_gallery/blob/0ec4ab84cd4686b49e5363b7fdadcfd9e428bb33/tljh-voila-gallery/tljh_voila_gallery/__init__.py#L50.
 
 ### Updating gallery installation
 
@@ -41,8 +62,6 @@ $ sudo /opt/tljh/hub/bin/python3 -m pip install -U  \
 git+https://github.com/NeuroLang/neurolang_gallery@master#"egg=neurolang-gallery&subdirectory=tljh-voila-gallery"
 
 $ sudo systemctl restart jupyterhub.service
-
-$ sudo systemctl status jupyterhub.service
 ```
 
 If container images should be regenerated: 
