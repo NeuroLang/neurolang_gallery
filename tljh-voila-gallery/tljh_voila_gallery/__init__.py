@@ -1,7 +1,5 @@
 import socket
 import sys
-import os
-import jinja2
 from ruamel.yaml import YAML
 from tljh.hooks import hookimpl
 from tornado import web
@@ -15,12 +13,14 @@ yaml = YAML()
 
 
 class GallerySpawner(DockerSpawner):
-    cmd = 'jupyter-notebook'
+    cmd = ['jupyter-notebook']
 
     # rm containers when they stop
-    remove = True
+    remove = False
 
-    events = False
+    # events = False
+
+    http_timeout = 30
 
     def get_args(self):
         args = [
@@ -38,7 +38,7 @@ class GallerySpawner(DockerSpawner):
             '--VoilaConfiguration.enable_nbextensions=True',
             '--VoilaConfiguration.extension_language_mapping={".py": "python"}'
         ]
-        return args + self.args
+        return args + super().get_args()
 
     def start(self):
         if 'token' not in self.user_options:

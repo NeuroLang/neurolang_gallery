@@ -83,6 +83,89 @@ On the server, run
 
 `$ sudo journalctl -u traefik.service`
 
+## Setting up neurolang_gallery for a local development environment (macOS)
+
+It is recommended to not install TLJH directly on your laptop or personal computer! It will most likely open up exploitable security holes when run directly on your personal computer. Instead, [TLJH](https://tljh.jupyter.org/en/latest/contributing/dev-setup.html#contributing-dev-setup) recommends running locally inside a docker container for development, which also allows you to run TLJH on a macOS machine.
+
+Follow the steps in the [tutorial](https://tljh.jupyter.org/en/latest/contributing/dev-setup.html#contributing-dev-setup) to create a docker image with systemd and tljh and start a container in the background.
+When starting the container, add a mount volume pointing to your local working directory to be able to install `neurolang_gallery` and `neurolang_web` projects from file instead of from a git repository:
+
+```sh
+docker run \
+  --privileged \
+  --detach \
+  --name=tljh-dev \
+  --publish 12000:80 \
+  --mount type=bind,source=$(pwd),target=/srv/src \
+  --mount type=bind,source=<your-working-dir>,target=/srv/workspace
+  tljh-systemd
+```
+
+Replace `<your-working-dir>` with the path to your working directory containing `neurolang_gallery` and `neurolang_web`.
+
+You can then get a shell inside the running docker container.
+
+```sh
+docker exec -it tljh-dev /bin/bash
+```
+
+Once inside the container, you can install TLJH with your local clone of the `neurolang_gallery` plugin :
+
+```sh
+sudo python3 /srv/src/bootstrap/bootstrap.py --admin admin --plugin /srv/workspace/neurolang_gallery/tljh-voila-gallery/
+```
+
+This allows you to also add local repositories in the `gallery.yaml` file by pointing the url to `srv/workspace/<a-python-repo-with-notebooks>` :
+
+```yaml
+examples:
+  localdestrieux:
+    title: Destrieux
+    description: Run queries using Neurolang library with destrieux cortical atlas (2009) dataset and explore results.
+    url: voila/render/gallery/Destrieux.py
+    repo_url: /srv/workspace/neurolang_web
+    ref: master
+    image_url: https://avatars2.githubusercontent.com/u/35116292?s=200&v=4
+```
+
+---
+**NOTE**
+
+The `tljh-voila-gallery` plugin installs docker using apt inside the docker container, since it is required to build the images for the repositories in gallery.yaml. However it sometimes fails to start the docker service required to use docker. Run `sudo systemctl status docker` to check that docker is running, and if it is not, run `sudo systemctl start docker` to start it.
+
+Also note that the `tljh-voila-gallery-builder` service builds docker images for each repository in the `gallery.yaml` file, and these images are quite large (>3GB) and can quickly run out the memory allocated to the docker container in which tljh runs. If the `tljh-voila-gallery-builder` service fails because of memory issues, increase the memory allocated to the docker container.
+
+---
+
+If you update the `gallery.yaml` file or any other part of the `neurolang_gallery` app, it can be reinstalled with :
+
+```sh
+sudo /opt/tljh/hub/bin/python3 -m pip install -U /srv/workspace/neurolang_gallery/tljh-voila-gallery/
+```
+
+Make sure to restart the required services. The `jupyter-hub` service serves the web page displaying the notebooks at `localhost:12000` (the 12000 port comes from the publish mapping specified when creating the docker container)
+
+```sh
+sudo systemctl restart jupyterhub.service
+```
+
+The `tljh-voila-gallery-builder` service builds the docker images for the repositories specified in `gallery.yaml`. Check that the images are built correctly with
+
+```sh
+sudo journalctl -u tljh-voila-gallery-builder.service
+```
+
+and eventually restart it to rebuild the images.
+
+However, building the images for the notebooks is quite inefficient when done in a docker container. It is preferable to build them on your host machine, by running
+
+```sh
+python -m tljh_voila_gallery.build_images
+```
+
+This script will create docker images for each entry in `gallery.yaml`. These images then need to be mounted 
+
+
 ## License
 
 This software is licensed under the BSD-3-Clause license. See the
