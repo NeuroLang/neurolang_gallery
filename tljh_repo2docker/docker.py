@@ -1,4 +1,7 @@
 import json
+import subprocess
+import sys
+import click
 
 from urllib.parse import urlparse
 
@@ -11,7 +14,9 @@ async def list_images():
     """
     async with Docker() as docker:
         r2d_images = await docker.images.list(
-            filters=json.dumps({"dangling": ["false"], "label": ["repo2docker.ref"]})
+            filters=json.dumps(
+                {"dangling": ["false"], "label": ["repo2docker.ref"]}
+            )
         )
     images = [
         {
@@ -43,7 +48,9 @@ async def list_containers():
             "repo": container["Labels"]["repo2docker.repo"],
             "ref": container["Labels"]["repo2docker.ref"],
             "image_name": container["Labels"]["repo2docker.build"],
-            "display_name": container["Labels"]["tljh_repo2docker.display_name"],
+            "display_name": container["Labels"][
+                "tljh_repo2docker.display_name"
+            ],
             "mem_limit": container["Labels"]["tljh_repo2docker.mem_limit"],
             "cpu_limit": container["Labels"]["tljh_repo2docker.cpu_limit"],
             "status": "building",
@@ -54,11 +61,9 @@ async def list_containers():
     return containers
 
 
-async def build_image(
-    repo, ref, name="", memory=None, cpu=None, username=None, password=None
-):
+def get_repo2docker_cmd(repo, ref, name="", memory=None, cpu=None):
     """
-    Build an image given a repo, ref and limits
+    Create the command to build an image with repo2docker given a repo, ref and limits
     """
     ref = ref or "master"
     if len(ref) >= 40:
@@ -96,6 +101,16 @@ async def build_image(
         "\n".join(labels),
         repo,
     ]
+    return cmd, image_name
+
+
+async def build_image(
+    repo, ref, name="", memory=None, cpu=None, username=None, password=None
+):
+    """
+    Build an image given a repo, ref and limits
+    """
+    cmd, image_name = get_repo2docker_cmd(repo, ref, name, memory, cpu)
 
     config = {
         "Cmd": cmd,
@@ -126,9 +141,31 @@ async def build_image(
     if username and password:
         config.update(
             {
-                "Env": [f"GIT_CREDENTIAL_ENV=username={username}\npassword={password}"],
+                "Env": [
+                    f"GIT_CREDENTIAL_ENV=username={username}\npassword={password}"
+                ],
             }
         )
 
     async with Docker() as docker:
         await docker.containers.run(config=config)
+
+
+@click.command()
+@click.argument("repo")
+@click.option("--ref", default="master", help="The branch/ref for the repo")
+@click.option(
+    "--name", default="", help="A unique name for the docker image generated"
+)
+@click.option(
+    "--memory",
+    help="memory in GB to allocate when starting a container with this image",
+)
+@click.option(
+    "--cpu",
+    help="nb cpus to allocate when starting a container with this image",
+)
+def build_docker_image(repo, ref, name, memory=None, cpu=None):
+    cmd, _ = get_repo2docker_cmd(repo, ref, name, memory, cpu)
+    subprocess.run(cmd)
+
