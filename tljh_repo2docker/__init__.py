@@ -182,6 +182,10 @@ def tljh_custom_jupyterhub_config(c):
     c.DockerSpawner.cmd = ["jupyterhub-singleuser"]
     c.DockerSpawner.pull_policy = "Never"
     c.DockerSpawner.remove = True
+    c.DockerSpawner.args = [
+        '--VoilaConfiguration.enable_nbextensions=True',
+        '--VoilaConfiguration.extension_language_mapping={".py": "python"}'
+    ]
 
     # fetch limits from the TLJH config
     tljh_config = load_config()
