@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="NeuroLang example notebooks">
+  <meta name="author" content="Neurolang Gallery contributors">
+  <title>Neurolang Gallery</title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ base_url }}environments-static/css/gallery.css" type="text/css"/>
+</head>
+
+<body>
+  <header>
+  </header>
+
+  <main role="main">
+    <div class="content-fluid neurolang-blue">
+      <div class="container">
+        <div>
+          <h4 style="text-align: center">A gallery of NeuroLang dashboards</h4>
+          <div style="margin: auto; max-width: 800px;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-fluid neurolang-white">
+      <div class="container">
+        <form enctype="multipart/form-data" id="spawn_form" action="{{url}}" method="post" role="form">
+
+            <div class="row no-gutters">
+              {% for name, example in gallery.items() %}
+                <div class="col-md-4" style="height: 400px; padding: 16px;">
+                  <input type="text" name="image_name" id="example-{{example.image_name}}" value="{{example.image_name}}" class="d-none image_name"/>
+                  <input type="text" name="repo_url" id="example-{{example.repo_url}}" value="{{example.repo_url}}" class="d-none image_repo_url"/>
+                  <input type="text" name="path" id="example-{{example.path}}" value="{{example.path}}" class="d-none image_path"/>
+                  <div class="gallery-item">
+                    <div class="launch-item"
+                         style="height: 90%; padding: 8px;"
+                         id="example-{{name}}"
+                         value="{{name}}"
+                         data-example-name="{{name}}">
+                      <img style="height: 60%; width: 100%; object-fit: contain;" src="{{example.image_url}}" />
+                      <div style="height: 40%; overflow: hidden;">
+                        <h4 style="margin-top: .5rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">{{ example.title }}</h4>
+                        <p>{{ example.description }}</p>
+                      </div>
+                    </div>
+                    <div style="height: 10%;">
+                      <a style="height: 100%; width: 100%; color: #333;" href="{{example.repo_url}}" target="_blank" type="button" class="btn btn-light">Source</a>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+        
+          </form>
+      </div>
+    </div>
+  </main>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="{{ base_url }}environments-static/js/gallery.js"></script>
+
+  <footer class="footer content-fluid neurolang-blue">
+    <div class="container">
+      <span>Built with
+        <a href="https://github.com/voila-dashboards/voila">Voilà</a>,
+        <a href="https://github.com/jupyter-widgets/ipywidgets">ipywidgets</a> and
+        <a href="https://tljh.jupyter.org">The Littlest JupyterHub</a>
+      </span>
+    </div>
+  </footer>
+</body>
+
+</html>

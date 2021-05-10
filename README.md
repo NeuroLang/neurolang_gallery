@@ -27,7 +27,7 @@ sudo docker pull jupyter/repo2docker:master
 curl https://raw.githubusercontent.com/jupyterhub/the-littlest-jupyterhub/master/bootstrap/bootstrap.py \
   | sudo python3 - \
     --admin admin \
-    --plugin git+https://github.com/NeuroLang/neurolang_gallery@master#"egg=neurolang-gallery"
+    --plugin git+https://github.com/NeuroLang/neurolang_gallery@tljh_repo2docker#"egg=neurolang-gallery"
 ```
 
 Refer to [The Littlest JupyterHub documentation](http://tljh.jupyter.org/en/latest/topic/customizing-installer.html?highlight=plugins#installing-tljh-plugins)

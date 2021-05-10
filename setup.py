@@ -13,6 +13,7 @@ setup(
     include_package_data=True,
     install_requires=[
         "click",
+        "pyyaml",
         "dockerspawner~=0.11",
         "jupyter_client~=6.1",
         "aiodocker~=0.19",

@@ -1,4 +1,5 @@
 import os
+from tljh_repo2docker.gallery import GalleryHandler
 
 from aiodocker import Docker
 from dockerspawner import DockerSpawner
@@ -200,6 +201,7 @@ def tljh_custom_jupyterhub_config(c):
     # register the handlers to manage the user images
     c.JupyterHub.extra_handlers.extend(
         [
+            (r"gallery", GalleryHandler),
             (r"environments", ImagesHandler),
             (r"api/environments", BuildHandler),
             (r"api/environments/([^/]+)/logs", LogsHandler),
@@ -210,6 +212,8 @@ def tljh_custom_jupyterhub_config(c):
             ),
         ]
     )
+
+    c.JupyterHub.default_url = '/gallery'
 
 
 @hookimpl
