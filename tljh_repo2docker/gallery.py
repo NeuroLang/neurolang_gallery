@@ -62,7 +62,7 @@ class GalleryHandler(BaseHandler):
             image_name, launcher.unique_name_from_repo(repo_url)
         )
         redirect_url = (
-            urljoin(response["url"], path)
+            urljoin(response["url"], "voila/render/" + path)
             + "?"
             + urlencode({"token": response["token"]})
         )
