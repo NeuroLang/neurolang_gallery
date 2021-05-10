@@ -16,11 +16,15 @@ from .builder import BuildHandler
 from .docker import list_images
 from .images import ImagesHandler
 from .logs import LogsHandler
+from nullauthenticator import NullAuthenticator
 
 # Default CPU period
 # See: https://docs.docker.com/config/containers/resource_constraints/#limit-a-containers-access-to-memory#configure-the-default-cfs-scheduler
 CPU_PERIOD = 100_000
 
+# Default API TOKEN for gallery service
+GALLERY_API_TOKEN = "89db033a818f4240b6a35e0ebf28d888f8b4dcc136c8287ade15d743291547e4"
+os.environ["GALLERY_API_TOKEN"] = GALLERY_API_TOKEN
 
 class SpawnerMixin(Configurable):
 
@@ -166,6 +170,12 @@ class Repo2DockerSpawner(SpawnerMixin, DockerSpawner):
         await self.set_limits()
         return await super().start(*args, **kwargs)
 
+class GalleryAuthenticator(NullAuthenticator):
+    auto_login = True
+
+    def login_url(self, base_url):
+        return '/hub/gallery'
+
 
 @hookimpl
 def tljh_custom_jupyterhub_config(c):
@@ -184,8 +194,8 @@ def tljh_custom_jupyterhub_config(c):
     c.DockerSpawner.pull_policy = "Never"
     c.DockerSpawner.remove = True
     c.DockerSpawner.args = [
-        '--VoilaConfiguration.enable_nbextensions=True',
-        '--VoilaConfiguration.extension_language_mapping={".py": "python"}'
+        "--VoilaConfiguration.enable_nbextensions=True",
+        '--VoilaConfiguration.extension_language_mapping={".py": "python"}',
     ]
 
     # fetch limits from the TLJH config
@@ -213,7 +223,15 @@ def tljh_custom_jupyterhub_config(c):
         ]
     )
 
-    c.JupyterHub.default_url = '/gallery'
+    # Add an admin gallery service with an API token
+    c.JupyterHub.services = [
+        {"name": "gallery", "admin": True, "api_token": GALLERY_API_TOKEN},
+    ]
+
+    # Redirect users to /hub/gallery by default (/hub is added by jupyter-hub)
+    c.JupyterHub.default_url = "/gallery"
+
+    c.JupyterHub.authenticator_class = GalleryAuthenticator
 
 
 @hookimpl

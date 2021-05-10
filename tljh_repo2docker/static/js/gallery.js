@@ -1,40 +1,29 @@
 require([
     "jquery", "jhapi",
-  ], function(
+], function (
     $,
     JHAPI,
-  ) {
+) {
     "use strict";
-  
+
     var base_url = window.jhdata.base_url;
     var api = new JHAPI(base_url);
 
-    $('.launch-item').click(function() {
+    $('.launch-item').click(function () {
         var el = $(this);
-        var image_name = el.find(".image_name").val().trim();
-        var repo_url = el.find(".image_repo_url").val().trim();
-        var path = el.find(".image_path").val().trim();
-        console.log(image_name);
-        console.log(repo_url);
-        console.log(path);
-        api.api_request("environments", {
-            type: "POST",
-            data: JSON.stringify({
-              repo: repo,
-              ref: ref,
-              name: name,
-              memory: memory,
-              cpu: cpu,
-              username: username,
-              password: password,
-            }),
-            success: function() {
-              window.location.reload();
-            },
+        var image_name = el.find(".image-name").val().trim();
+        var repo_url = el.find(".repo-url").val().trim();
+        var path = el.find(".image-path").val().trim();
+
+        $.post(base_url + "gallery", {
+            image_name: image_name,
+            repo_url: repo_url,
+            path: path,
+        }, function(data) {
+            console.log(data);
           });
     });
-  
+
     console.log(base_url);
-  
-  });
-  
+
+});

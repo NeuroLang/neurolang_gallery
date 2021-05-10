@@ -1,12 +1,16 @@
+import os
+import json
 from inspect import isawaitable
+from urllib.parse import urlencode, urljoin
+
+import yaml
+from binderhub.launcher import Launcher
 from jupyterhub.handlers.base import BaseHandler
 from jupyterhub.utils import admin_only
-from binderhub.launcher import Launcher
-from tornado import web
-from .docker import list_containers, list_images
-import yaml
 from pkg_resources import resource_stream
-from urllib.parse import urlencode, urljoin
+from tornado import web
+
+from .docker import list_containers, list_images
 
 
 # Read gallery.yaml. Only keep the examples that have a corresponding Docker image
@@ -46,16 +50,13 @@ class GalleryHandler(BaseHandler):
             self.write(result)
 
     async def post(self):
-        print("HELLO")
         image_name = self.get_body_argument("image_name")
         repo_url = self.get_body_argument("repo_url")
         path = self.get_body_argument("path")
 
         launcher = Launcher(
-            # hub_api_token=os.environ["JUPYTERHUB_API_TOKEN"],
-            # hub_url=os.environ["JUPYTERHUB_BASE_URL"],
-            hub_api_token="SOME_TOKEN",
-            hub_url="SOME_API_URL",
+            hub_api_token=os.environ["GALLERY_API_TOKEN"],
+            hub_url=self.request.protocol + "://" + self.request.host + "/",
         )
         response = await launcher.launch(
             image_name, launcher.unique_name_from_repo(repo_url)
@@ -65,4 +66,8 @@ class GalleryHandler(BaseHandler):
             + "?"
             + urlencode({"token": response["token"]})
         )
-        self.redirect(redirect_url)
+        # self.redirect(redirect_url)
+
+        data = {"redirect": redirect_url}
+        print(data)
+        self.write(data)

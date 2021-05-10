@@ -14,6 +14,7 @@ setup(
     install_requires=[
         "click",
         "pyyaml",
+        "nullauthenticator",
         "dockerspawner~=0.11",
         "jupyter_client~=6.1",
         "aiodocker~=0.19",
