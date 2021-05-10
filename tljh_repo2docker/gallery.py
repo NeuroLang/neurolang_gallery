@@ -53,6 +53,12 @@ class GalleryHandler(BaseHandler):
         image_name = self.get_body_argument("image_name")
         repo_url = self.get_body_argument("repo_url")
         path = self.get_body_argument("path")
+        view_type = self.get_body_argument("view_type")
+
+        if view_type == "notebook":
+            path = "notebooks/" + path
+        else:
+            path = "voila/render/" + path
 
         launcher = Launcher(
             hub_api_token=os.environ["GALLERY_API_TOKEN"],
@@ -62,7 +68,7 @@ class GalleryHandler(BaseHandler):
             image_name, launcher.unique_name_from_repo(repo_url)
         )
         redirect_url = (
-            urljoin(response["url"], "voila/render/" + path)
+            urljoin(response["url"], path)
             + "?"
             + urlencode({"token": response["token"]})
         )

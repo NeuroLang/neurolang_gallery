@@ -9,19 +9,23 @@ require([
     var base_url = window.jhdata.base_url;
     var api = new JHAPI(base_url);
 
-    $('.launch-item').click(function () {
+    $('.example-card button').click(function () {
         var el = $(this);
-        var image_name = el.find(".image-name").val().trim();
-        var repo_url = el.find(".repo-url").val().trim();
-        var path = el.find(".image-path").val().trim();
+        var card = el.closest(".example-card");
+        var image_name = card.find(".image-name").val().trim();
+        var repo_url = card.find(".repo-url").val().trim();
+        var path = card.find(".image-path").val().trim();
+        var view_type = el.hasClass("btn-notebook") ? "notebook" : "voila";
 
         $.post(base_url + "gallery", {
             image_name: image_name,
             repo_url: repo_url,
             path: path,
-        }, function(data) {
+            view_type: view_type
+        }, function (data) {
             console.log(data);
-          });
+            window.location.replace(data.redirect);
+        });
     });
 
     console.log(base_url);

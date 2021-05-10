@@ -16,8 +16,6 @@ from .builder import BuildHandler
 from .docker import list_images
 from .images import ImagesHandler
 from .logs import LogsHandler
-from nullauthenticator import NullAuthenticator
-from tornado import web
 
 # Default CPU period
 # See: https://docs.docker.com/config/containers/resource_constraints/#limit-a-containers-access-to-memory#configure-the-default-cfs-scheduler
@@ -179,10 +177,7 @@ class Repo2DockerSpawner(SpawnerMixin, DockerSpawner):
             args = [
                 "--NotebookApp.base_url=%s" % self.server.base_url,
                 "--NotebookApp.token=%s" % self.user_options["token"],
-                # "--NotebookApp.tornado_settings.trust_xheaders=True",
             ] + args
-        # print("--NotebookApp.token=%s" % self.user_options["token"])
-        # print("--NotebookApp.base_url=%s" % self.server.base_url)
         return args + super().get_args()
 
     async def start(self, *args, **kwargs):
@@ -193,13 +188,6 @@ class Repo2DockerSpawner(SpawnerMixin, DockerSpawner):
             self.cmd = ["jupyter-notebook"]
         await self.set_limits()
         return await super().start(*args, **kwargs)
-
-
-class GalleryAuthenticator(NullAuthenticator):
-    auto_login = True
-
-    def login_url(self, base_url):
-        return "/hub/gallery"
 
 
 @hookimpl
@@ -251,8 +239,6 @@ def tljh_custom_jupyterhub_config(c):
 
     # Redirect users to /hub/gallery by default (/hub is added by jupyter-hub)
     c.JupyterHub.default_url = "/gallery"
-
-    # c.JupyterHub.authenticator_class = GalleryAuthenticator
 
 
 @hookimpl
