@@ -17,7 +17,7 @@ examples:
   topicregions:
     title: TopicRegions
     description: Explore peak regions reported from the Difumo &  neuroquery datasets.
-    path: gallery/NeuroSynth.py
+    path: gallery/TopicRegions.py
     repo_url: https://github.com/NeuroLang/neurolang_web
     image_name: neuroweb:new_notebooks
     image_url: environments-static/images/difumo.png
