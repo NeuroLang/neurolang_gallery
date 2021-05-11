@@ -177,6 +177,11 @@ class Repo2DockerSpawner(SpawnerMixin, DockerSpawner):
             args = [
                 "--NotebookApp.base_url=%s" % self.server.base_url,
                 "--NotebookApp.token=%s" % self.user_options["token"],
+                # stop idle servers
+                "--NotebookApp.shutdown_no_activity_timeout=600",
+                "--MappingKernelManager.cull_idle_timeout=600",
+                "--MappingKernelManager.cull_interval=60",
+                "--MappingKernelManager.cull_connected=True",
             ] + args
         return args + super().get_args()
 
@@ -187,6 +192,11 @@ class Repo2DockerSpawner(SpawnerMixin, DockerSpawner):
             print("Spawning docker with token " + self.user_options["token"])
             self.cmd = ["jupyter-notebook"]
         await self.set_limits()
+
+        # self.volumes["neurolang_volume"] = {
+        #     "bind": "/home/jovyan/notebooks/neurolang_data",
+        #     "mode": "rw",
+        # }
         return await super().start(*args, **kwargs)
 
 
@@ -206,6 +216,21 @@ def tljh_custom_jupyterhub_config(c):
     c.DockerSpawner.cmd = ["jupyterhub-singleuser"]
     c.DockerSpawner.pull_policy = "Never"
     c.DockerSpawner.remove = True
+
+    # Explicitly set notebook directory because we'll be mounting a host volume to
+    # it.  Our notebook images run the Notebook server as user `jovyan` and set the 
+    # notebook directory to `/home/jovyan`.
+    notebook_dir = os.environ.get("DOCKER_NOTEBOOK_DIR") or "/home/jovyan"
+    c.DockerSpawner.notebook_dir = notebook_dir
+
+    # We mount an arbitrary volume (`neurolang_volume`) on the host to the
+    # notebook user's notebook directory in the container. This allows data
+    # persistence for anything stored in this directory by the notebooks.
+    c.DockerSpawner.volumes = {
+        "neurolang_volume": os.path.join(
+            notebook_dir, "gallery/neurolang_data"
+        )
+    }
 
     # fetch limits from the TLJH config
     tljh_config = load_config()

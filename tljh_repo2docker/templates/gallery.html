@@ -57,7 +57,7 @@ Neurolang Gallery
   <section class="jumbotron text-center">
     <div class="container">
       <h1>A gallery of Neurolang examples</h1>
-      <p class="lead text-muted">NeuroLang is a probabilistic logic programming system that lets you write queries to
+      <p class="lead text-muted">NeuroLang is a probabilistic logic programming engine that lets you write queries to
         analyse neuroimaging data. Select one the examples below to see how Neurolang can be used for neuroimaging
         meta-analysis.</p>
     </div>
@@ -105,49 +105,6 @@ Neurolang Gallery
         {% endfor %}
       </div>
 
-      <!-- <div class="content-fluid neurolang-blue">
-    <div class="container">
-      <div>
-        <h4 style="text-align: center">A gallery of NeuroLang dashboards</h4>
-        <div style="margin: auto; max-width: 800px;">
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="content-fluid neurolang-white">
-    <div class="container">
-      <form enctype="multipart/form-data" id="spawn_form" action="{{url}}" method="post" role="form">
-
-        <div class="row no-gutters">
-          {% for name, example in gallery.items() %}
-          <div class="col-md-4" style="height: 400px; padding: 16px;">
-            <div class="gallery-item">
-              <div class="launch-item" style="height: 90%; padding: 8px;" id="example-{{name}}" value="{{name}}"
-                data-example-name="{{name}}">
-                <input type="text" value="{{example.image_name}}" class="d-none image-name" />
-                <input type="text" value="{{example.repo_url}}" class="d-none repo-url" />
-                <input type="text" value="{{example.path}}" class="d-none image-path" />
-                <img style="height: 60%; width: 100%; object-fit: contain;" src="{{example.image_url}}" />
-                <div style="height: 40%; overflow: hidden;">
-                  <h4 style="margin-top: .5rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">{{
-                    example.title }}</h4>
-                  <p>{{ example.description }}</p>
-                </div>
-              </div>
-              <div style="height: 10%;">
-                <a style="height: 100%; width: 100%; color: #333;" href="{{example.repo_url}}" target="_blank"
-                  type="button" class="btn btn-light">Source</a>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-
-      </form>
-    </div>
-  </div> -->
-
 </main>
 {% endblock %}
 
@@ -161,6 +118,12 @@ Neurolang Gallery
     </span>
   </div>
 </footer> -->
+<footer class="footer mt-auto py-3">
+  <div class="container d-flex flex-row justify-content-between">
+    <span class="text-muted">© Copyright 2021, Demian Wassermann et al.</span>
+    <img style="height: 1.5em;" src="{{ base_url }}environments-static/images/inr_logo_rouge.svg">
+  </div>
+</footer>
 {% endblock %}
 
 {% block script %}

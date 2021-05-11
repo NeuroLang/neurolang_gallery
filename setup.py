@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="tljh-repo2docker",
+    name="neurolang-gallery",
     version="0.0.1",
     entry_points={
         "tljh": ["tljh_repo2docker = tljh_repo2docker"],
