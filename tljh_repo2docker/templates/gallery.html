@@ -6,19 +6,47 @@ Neurolang Gallery
 
 {% block stylesheet %}
 <!-- {{ super() }} -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+  crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+  integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 <link rel="stylesheet" href="{{ base_url }}environments-static/css/gallery.css" type="text/css" />
 <meta name="theme-color" content="#563d7c">
+
 {% endblock %}
 
 {% block nav_bar %}
 <header>
+  <div class="collapse bg-dark" id="navbarHeader">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 col-md-7 py-4">
+          <h4 class="text-white">About</h4>
+          <p class="text-muted">NeuroLang is a probabilistic logic programming system specialised in the analysis of
+            neuroimaging data, but not exclusively determined by it.
+            Neurolang is developed by people from the Parietal team at INRIA.
+          </p>
+        </div>
+        <div class="col-sm-4 offset-md-1 py-4">
+          <h4 class="text-white">Contact</h4>
+          <ul class="list-unstyled">
+            <li><a href="https://github.com/NeuroLang/NeuroLang" class="text-white">Star it on github</a></li>
+            <li><a href="https://neurolang.github.io/" class="text-white">Read the documentation</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="navbar navbar-dark bg-dark shadow-sm">
     <div class="container d-flex justify-content-between">
       <a href="#" class="navbar-brand d-flex align-items-center">
         <strong>Neurolang</strong>
       </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader"
+        aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
     </div>
   </div>
 </header>
@@ -29,7 +57,9 @@ Neurolang Gallery
   <section class="jumbotron text-center">
     <div class="container">
       <h1>A gallery of Neurolang examples</h1>
-      <p class="lead text-muted">Below you will find some examples of using Neurolang.</p>
+      <p class="lead text-muted">NeuroLang is a probabilistic logic programming system that lets you write queries to
+        analyse neuroimaging data. Select one the examples below to see how Neurolang can be used for neuroimaging
+        meta-analysis.</p>
     </div>
   </section>
 
@@ -40,19 +70,32 @@ Neurolang Gallery
         {% for name, example in gallery.items() %}
         <div class="col-md-4 example-card">
           <div class="card mb-4 shadow-sm">
-            <img src="{{example.image_url}}" class="bd-placeholder-img card-img-top" width="100%" height="225" role="img" focusable="false"/>
+            <img src="{{example.image_url}}" class="bd-placeholder-img card-img-top" width="100%" height="225"
+              role="img" focusable="false" />
             <div class="card-body">
               <h5 class="card-title">{{example.title}}</h5>
               <p class="card-text">{{example.description}}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary btn-notebook">View Notebook</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary btn-voila">View WebApp</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary btn-notebook">
+                    <i class="fab fa-python"></i>
+                    View Notebook
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary btn-voila">
+                    <i class="fas fa-brain"></i>
+                    View WebApp
+                  </button>
                 </div>
               </div>
               <input type="text" value="{{example.image_name}}" class="d-none image-name" />
               <input type="text" value="{{example.repo_url}}" class="d-none repo-url" />
               <input type="text" value="{{example.path}}" class="d-none image-path" />
+            </div>
+            <div class="card-footer text-muted">
+              <a class="btn btn-sm btn-outline-secondary" href="{{example.repo_url}}">
+                <i class="fab fa-github-square"></i>
+                Source
+              </a>
             </div>
           </div>
         </div>
@@ -119,7 +162,13 @@ Neurolang Gallery
 {% endblock %}
 
 {% block script %}
-{{ super() }}
+<!-- <script src="{{static_url("components/requirejs/require.js")}}" type="text/javascript" charset="utf-8"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
+  integrity="sha512-RXf+QSDCUQs5uwRKaDoXt55jygZZm2V++WUZduaU/Ui/9EGp3f/2KZVahFZBKGH0s774sd3HmrhUy+SgOFQLVQ=="
+  crossorigin="anonymous"></script>
 <script type="text/javascript">
   require(["{{ base_url }}environments-static/js/gallery.js"]);
 </script>

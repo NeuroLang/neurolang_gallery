@@ -31,3 +31,7 @@
   footer p {
     margin-bottom: .25rem;
   }
+
+  .collapse.in {
+    display: block;
+  }
