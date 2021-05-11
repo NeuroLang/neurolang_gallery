@@ -35,3 +35,7 @@
   .collapse.in {
     display: block;
   }
+
+  .jupyter-action:not([disabled]) .spinner-grow {
+    display: none;
+  }

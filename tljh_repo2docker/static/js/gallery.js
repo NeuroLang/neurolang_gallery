@@ -17,6 +17,8 @@ require([
         var path = card.find(".image-path").val().trim();
         var view_type = el.hasClass("btn-notebook") ? "notebook" : "voila";
 
+        el.prop("disabled", true);
+
         $.post(base_url + "gallery", {
             image_name: image_name,
             repo_url: repo_url,
