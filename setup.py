@@ -19,5 +19,6 @@ setup(
         "dockerspawner~=0.11",
         "jupyter_client~=6.1",
         "aiodocker~=0.19",
+        "jupyter-repo2docker"
     ],
 )

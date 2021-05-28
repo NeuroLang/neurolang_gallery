@@ -87,7 +87,9 @@ def get_repo2docker_cmd(repo, ref, name="", memory=None, cpu=None):
         f"LABEL tljh_repo2docker.cpu_limit={cpu}",
     ]
     cmd = [
-        "jupyter-repo2docker",
+        sys.executable,
+        '-m',
+        "repo2docker",
         "--ref",
         ref,
         "--user-name",
