@@ -1,4 +1,13 @@
-
+# List of docker images that will be built when running the `build-image` cli with the
+# -f option. Images should have a unique lowercase name.
+images:
+  neuroweb:
+    repo: https://github.com/NeuroLang/neurolang_web
+    ref: new_notebooks
+    cpu: 6
+    memory: 6
+# List of examples to display in the gallery. Each example must point to a docker image that is present
+# on the machine. Docker images are identified as `image_name:ref`
 examples:
   destrieux:
     title: Destrieux
