@@ -27,7 +27,7 @@ sudo docker pull jupyter/repo2docker:master
 curl https://raw.githubusercontent.com/jupyterhub/the-littlest-jupyterhub/master/bootstrap/bootstrap.py \
   | sudo python3 - \
     --admin admin \
-    --plugin git+https://github.com/NeuroLang/neurolang_gallery@tljh_repo2docker#"egg=neurolang-gallery"
+    --plugin git+https://github.com/NeuroLang/neurolang_gallery@master#"egg=neurolang-gallery"
 ```
 
 Refer to [The Littlest JupyterHub documentation](http://tljh.jupyter.org/en/latest/topic/customizing-installer.html?highlight=plugins#installing-tljh-plugins)
@@ -40,7 +40,7 @@ The first part of the script installs docker on the machine and pulls the repo2d
 Once TLJH has been installed on a server with the neurolang_gallery plugin, to update neurolang_gallery when code changes, use:
 
 ```bash
-sudo /opt/tljh/hub/bin/python3 -m pip install -U  git+https://github.com/NeuroLang/neurolang_gallery@tljh_repo2docker#"egg=neurolang-gallery"
+sudo /opt/tljh/hub/bin/python3 -m pip install -U  git+https://github.com/NeuroLang/neurolang_gallery@master#"egg=neurolang-gallery"
 ```
 
 ## How it works
@@ -119,13 +119,13 @@ Check out the instructions in [CONTRIBUTING.md](./CONTRIBUTING.md) to setup a lo
 
 # The gallery
 
-The application is a jupyterhub server, which allows admins to create docker images (**Environments**) containing all the required environment to run the code in a specified repository. See the doc for repo2docker for details on what these images look like. Once an **Environment** has been created by an admin of the application, any user with an account on the jupyterhub application can start a docker container running it's personal jupyter-notebook instance setup to execute the notebooks in the repository.
+The application is a jupyterhub server, which allows admins to create docker images (**Environments**) containing all the required environment to run the code in a specified repository. See the doc for repo2docker for details on what these images look like. Once an **Environment** has been created by an admin of the application, any user with an account on the jupyterhub application can start a docker container running its personal jupyter-notebook instance setup to execute the notebooks in the repository.
 
 The **neurolang_gallery** application is setup to serve a single-page gallery by default. This is configured in the jupyterhub config in [`tljh_repo2docker/__init__.py`](tljh_repo2docker/__init__.py).
 This gallery page is served by the **GalleryHandler** in [`gallery.py`. ](tljh_repo2docker/gallery.py)
 The examples to display on the page are listed in the [`gallery.yaml`](tljh_repo2docker/gallery.yaml) page. Each example has a title, description, and the name of a docker image (which must be one of the **Environments** generated on the server by an admin).
 
-When the user clicks on one of the examples in the gallery, the **GalleryHandler** will create a new jupyter-hub user and start a server for this user using the docker image that is specified for the example in the `gallery.yaml` file. The page is then redirected to the url of this running server, with the auth token to identify the temporary jupyter-hub user who's server is running.
+When the user clicks on one of the examples in the gallery, the **GalleryHandler** will create a new jupyter-hub user and start a server for this user using the docker image that is specified for the example in the `gallery.yaml` file. The page is then redirected to the url of this running server, with the auth token to identify the temporary jupyter-hub user whose server is running.
 
 ## DockerSpawner configuration
 

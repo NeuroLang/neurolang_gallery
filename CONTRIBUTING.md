@@ -13,8 +13,8 @@ Check out the official Docker documentation to know how to install Docker on you
 Using `conda`:
 
 ```bash
-conda create -n tljh-repo2docker -c conda-forge python nodejs
-conda activate tljh-repo2docker
+conda create -n neurolang_gallery -c conda-forge python nodejs
+conda activate neurolang_gallery
 ```
 
 Alternatively, with Python's built in `venv` module, you can create a virtual environment with:
