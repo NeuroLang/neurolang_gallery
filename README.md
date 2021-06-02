@@ -35,6 +35,14 @@ for more info on installing TLJH plugins.
 
 The first part of the script installs docker on the machine and pulls the repo2docker image which is used to run repo2docker in a docker container. The last part of the script installs TLJH with the neurolang_gallery plugin.
 
+## Updating
+
+Once TLJH has been installed on a server with the neurolang_gallery plugin, to update neurolang_gallery when code changes, use:
+
+```bash
+sudo /opt/tljh/hub/bin/python3 -m pip install -U  git+https://github.com/NeuroLang/neurolang_gallery@tljh_repo2docker#"egg=neurolang-gallery"
+```
+
 ## How it works
 The application installs TLJH which comes with traefik.service that runs a [traefik](https://github.com/traefik/traefik) reverse proxy.
 
@@ -71,7 +79,7 @@ Once ready, the environments can be selected from the JupyterHub spawn page:
 
 ### Private Repositories
 
-`tljh-repo2docker` also supports building environments from private repositories.
+There is support for building environments from private repositories.
 
 It is possible to provide the `username` and `password` in the `Credentials` section of the form:
 
@@ -81,6 +89,26 @@ On GitHub and GitLab, a user might have to first create an access token with `re
 
 ![image](https://user-images.githubusercontent.com/591645/107350843-39c3bf80-6aca-11eb-8b82-6fa95ba4c7e4.png)
 
+### Run repo2docker as a command-line script
+
+You can also build docker images by running repo2docker directly as a command line script, instead of from the web interface which runs repo2docker in a docker container :
+
+```bash
+build-image --ref=master --name=neurolangweb --repo=https://github.com/NeuroLang/neurolang_web
+```
+
+This lets you build images from a local repository by specifying a path to a local repo:
+
+```bash
+build-image --ref=master --name=dev_neuroweb --repo=/local/path/to/repository
+```
+
+You can also choose to build all the images listed in the `gallery.yaml` file by using the `--file` option:
+
+```bash
+build-image --file
+```
+
 ## Building JupyterHub-ready images
 
 See: https://repo2docker.readthedocs.io/en/latest/howto/jupyterhub_images.html
@@ -88,3 +116,36 @@ See: https://repo2docker.readthedocs.io/en/latest/howto/jupyterhub_images.html
 ## Run Locally
 
 Check out the instructions in [CONTRIBUTING.md](./CONTRIBUTING.md) to setup a local environment.
+
+# The gallery
+
+The application is a jupyterhub server, which allows admins to create docker images (**Environments**) containing all the required environment to run the code in a specified repository. See the doc for repo2docker for details on what these images look like. Once an **Environment** has been created by an admin of the application, any user with an account on the jupyterhub application can start a docker container running it's personal jupyter-notebook instance setup to execute the notebooks in the repository.
+
+The **neurolang_gallery** application is setup to serve a single-page gallery by default. This is configured in the jupyterhub config in [`tljh_repo2docker/__init__.py`](tljh_repo2docker/__init__.py).
+This gallery page is served by the **GalleryHandler** in [`gallery.py`. ](tljh_repo2docker/gallery.py)
+The examples to display on the page are listed in the [`gallery.yaml`](tljh_repo2docker/gallery.yaml) page. Each example has a title, description, and the name of a docker image (which must be one of the **Environments** generated on the server by an admin).
+
+When the user clicks on one of the examples in the gallery, the **GalleryHandler** will create a new jupyter-hub user and start a server for this user using the docker image that is specified for the example in the `gallery.yaml` file. The page is then redirected to the url of this running server, with the auth token to identify the temporary jupyter-hub user who's server is running.
+
+## DockerSpawner configuration
+
+The jupyterhub configuration and more specifically the DockerSpawner parameter can be used to configure how the notebook servers are created/run.
+
+For example, in order to be able to use **Voila** in the example notebooks, the [DockerSpawner](tljh_repo2docker/__init.py) starts the notebook servers with extra parameters:
+
+```python
+args = [
+    "--VoilaConfiguration.enable_nbextensions=True",
+    '--VoilaConfiguration.extension_language_mapping={".py": "python"}',
+]
+```
+
+We also mount a shared volume on the docker containers so that example data for the notebooks doesn't have to be downloaded each time a new container is created:
+
+```python
+c.DockerSpawner.volumes = {
+    "neurolang_volume": os.path.join(
+        notebook_dir, "gallery/neurolang_data"
+    )
+}
+```

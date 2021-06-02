@@ -64,17 +64,3 @@ To run the tests:
 ```bash
 python -m pytest --cov
 ```
-
-## Run repo2docker as a command-line script
-
-You can also build docker images by running repo2docker directly on your machine as a command line script, instead of from the web interface which runs repo2docker in a docker container :
-
-```bash
-build-image --ref=master --name=neurolangweb https://github.com/NeuroLang/neurolang_web
-```
-
-This lets you build images from a local repository :
-
-```bash
-build-image --ref=master --name=dev_neuroweb /local/path/to/repository
-```
