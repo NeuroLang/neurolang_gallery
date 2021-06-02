@@ -3,9 +3,9 @@
 images:
   neuroweb:
     repo: https://github.com/NeuroLang/neurolang_web
-    ref: new_notebooks
-    cpu: 6
-    memory: 6
+    ref: master
+    cpu: 4
+    memory: 9
 # List of examples to display in the gallery. Each example must point to a docker image that is present
 # on the machine. Docker images are identified as `image_name:ref`
 examples:
@@ -14,47 +14,47 @@ examples:
     description: Use probabilistic first-order logic in NeuroLang to segregate dorsal and ventral Posterior Cingulate Cortex (PCC).
     path: gallery/PCC_functionnal_segregation.py
     repo_url: https://github.com/NeuroLang/neurolang_web
-    image_name: neuroweb:new_notebooks
+    image_name: neuroweb:master
     image_url: environments-static/images/difumo.png
   fpcncoactivations:
     title: FPCN Coactivation Analysis
     description: Coactivation analysis of the functional connectivity fifferences between two FPCN subnetworks.
     path: gallery/FPCNCoactivations.py
     repo_url: https://github.com/NeuroLang/neurolang_web
-    image_name: neuroweb:new_notebooks
+    image_name: neuroweb:master
     image_url: environments-static/images/hbm_conf_ad.jpeg
   logicforward:
     title: Meta-Analysis of Activation Patterns within the FPCN
     description: See how to perform forward inference topic-based segregation queries to derive activation patterns within the frontoparietal cognitive control network (FPCN).
     path: gallery/LogicForward.py
     repo_url: https://github.com/NeuroLang/neurolang_web
-    image_name: neuroweb:new_notebooks
+    image_name: neuroweb:master
     image_url: environments-static/images/hbm_conf_ad.jpeg
   betweennetworksegregation:
     title: "Between-Network Segregation: Reverse Inference of Brain Network Function"
     description: Example of a reverse inference segregation query that derives the probability of a psychological topic being present given knowledge of activation in a particular brain network.
     path: gallery/BetweenNetworkSegregation.py
     repo_url: https://github.com/NeuroLang/neurolang_web
-    image_name: neuroweb:new_notebooks
+    image_name: neuroweb:master
     image_url: environments-static/images/hbm_conf_ad.jpeg
   vwfatopics:
     title: VWFA Topics
     description: Explore potential associations betwen topics and coactivations between the visual word-form area (VWFA) and the frontoparietal attention network.
     path: gallery/VWFA_topics.py
     repo_url: https://github.com/NeuroLang/neurolang_web
-    image_name: neuroweb:new_notebooks
+    image_name: neuroweb:master
     image_url: environments-static/images/vwfa.png
   destrieux:
     title: Destrieux
     description: Run queries using Neurolang library with destrieux cortical atlas (2009) dataset and explore results.
     path: gallery/Destrieux.py
     repo_url: https://github.com/NeuroLang/neurolang_web
-    image_name: neuroweb:new_notebooks
+    image_name: neuroweb:master
     image_url: https://neurolang.github.io/_images/sphx_glr_plot_load_destrieux_datalog_ir_thumb.png
   neurosynth:
     title: NeuroSynth
     description: Run queries using Neurolang library with neurosynth dataset and explore results.
     path: gallery/NeuroSynth.py
     repo_url: https://github.com/NeuroLang/neurolang_web
-    image_name: neuroweb:new_notebooks
+    image_name: neuroweb:master
     image_url: https://neurolang.github.io/_images/sphx_glr_plot_neurosynth_implementation_thumb.png
