@@ -6,7 +6,7 @@ setup(
     entry_points={
         "tljh": ["tljh_repo2docker = tljh_repo2docker"],
         "console_scripts": [
-            "build-image = tljh_repo2docker.docker:build_docker_image",
+            "build-image = tljh_repo2docker.cli:build_docker_image",
         ],
     },
     packages=find_packages(),

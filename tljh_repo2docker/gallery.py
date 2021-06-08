@@ -1,14 +1,11 @@
 import os
-import json
 from inspect import isawaitable
 from urllib.parse import urlencode, urljoin
 
 import yaml
 from binderhub.launcher import Launcher
 from jupyterhub.handlers.base import BaseHandler
-from jupyterhub.utils import admin_only
 from pkg_resources import resource_stream
-from tornado import web
 
 from .docker import list_containers, list_images
 
@@ -75,5 +72,4 @@ class GalleryHandler(BaseHandler):
         # self.redirect(redirect_url)
 
         data = {"redirect": redirect_url}
-        print(data)
         self.write(data)
