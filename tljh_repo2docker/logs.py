@@ -12,6 +12,7 @@ class LogsHandler(APIHandler):
     """
     Expose a handler to follow the build logs.
     """
+
     @web.authenticated
     @admin_only
     async def get(self, name):

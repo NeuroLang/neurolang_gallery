@@ -39,6 +39,8 @@ async def test_stream_simple(app, minimal_repo, image_name):
 
 @pytest.mark.asyncio
 async def test_no_build(app, image_name, request):
-    r = await api_request(app, "environments", "image-not-found:12345", "logs", stream=True)
+    r = await api_request(
+        app, "environments", "image-not-found:12345", "logs", stream=True
+    )
     request.addfinalizer(r.close)
     assert r.status_code == 404

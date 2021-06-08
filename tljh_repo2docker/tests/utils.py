@@ -5,16 +5,20 @@ from aiodocker import Docker, DockerError
 from jupyterhub.tests.utils import api_request
 
 
-async def add_environment(
-    app, *, repo, ref="master", name="", memory="", cpu=""
-):
+async def add_environment(app, *, repo, ref="master", name="", memory="", cpu=""):
     """Use the POST endpoint to add a new environment"""
     r = await api_request(
         app,
         "environments",
         method="post",
         data=json.dumps(
-            {"repo": repo, "ref": ref, "name": name, "memory": memory, "cpu": cpu,}
+            {
+                "repo": repo,
+                "ref": ref,
+                "name": name,
+                "memory": memory,
+                "cpu": cpu,
+            }
         ),
     )
     return r
@@ -40,6 +44,13 @@ async def wait_for_image(*, image_name):
 async def remove_environment(app, *, image_name):
     """Use the DELETE endpoint to remove an environment"""
     r = await api_request(
-        app, "environments", method="delete", data=json.dumps({"name": image_name,}),
+        app,
+        "environments",
+        method="delete",
+        data=json.dumps(
+            {
+                "name": image_name,
+            }
+        ),
     )
     return r

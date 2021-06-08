@@ -43,7 +43,8 @@ async def test_uppercase_repo(app, minimal_repo_uppercase, generated_image_name)
     assert r.status_code == 200
     image = await wait_for_image(image_name=generated_image_name)
     assert (
-        image["ContainerConfig"]["Labels"]["tljh_repo2docker.image_name"] == generated_image_name
+        image["ContainerConfig"]["Labels"]["tljh_repo2docker.image_name"]
+        == generated_image_name
     )
 
 
@@ -56,11 +57,17 @@ async def test_no_repo(app, image_name):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-    "memory, cpu", [("abcded", ""), ("", "abcde"),],
+    "memory, cpu",
+    [
+        ("abcded", ""),
+        ("", "abcde"),
+    ],
 )
 async def test_wrong_limits(app, minimal_repo, image_name, memory, cpu):
     name, ref = image_name.split(":")
-    r = await add_environment(app, repo=minimal_repo, name=name, ref=ref, memory=memory, cpu=cpu)
+    r = await add_environment(
+        app, repo=minimal_repo, name=name, ref=ref, memory=memory, cpu=cpu
+    )
     assert r.status_code == 400
     assert "must be a number" in r.text
 

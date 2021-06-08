@@ -22,9 +22,7 @@ from .logs import LogsHandler
 CPU_PERIOD = 100_000
 
 # Default API TOKEN for gallery service
-GALLERY_API_TOKEN = (
-    "89db033a818f4240b6a35e0ebf28d888f8b4dcc136c8287ade15d743291547e4"
-)
+GALLERY_API_TOKEN = "89db033a818f4240b6a35e0ebf28d888f8b4dcc136c8287ade15d743291547e4"
 os.environ["GALLERY_API_TOKEN"] = GALLERY_API_TOKEN
 
 
@@ -218,7 +216,7 @@ def tljh_custom_jupyterhub_config(c):
     c.DockerSpawner.remove = True
 
     # Explicitly set notebook directory because we'll be mounting a host volume to
-    # it.  Our notebook images run the Notebook server as user `jovyan` and set the 
+    # it.  Our notebook images run the Notebook server as user `jovyan` and set the
     # notebook directory to `/home/jovyan`.
     notebook_dir = os.environ.get("DOCKER_NOTEBOOK_DIR") or "/home/jovyan"
     c.DockerSpawner.notebook_dir = notebook_dir
@@ -227,9 +225,7 @@ def tljh_custom_jupyterhub_config(c):
     # notebook user's notebook directory in the container. This allows data
     # persistence for anything stored in this directory by the notebooks.
     c.DockerSpawner.volumes = {
-        "neurolang_volume": os.path.join(
-            notebook_dir, "gallery/neurolang_data"
-        )
+        "neurolang_volume": os.path.join(notebook_dir, "gallery/neurolang_data")
     }
 
     # fetch limits from the TLJH config

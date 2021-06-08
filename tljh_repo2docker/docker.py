@@ -11,9 +11,7 @@ async def list_images():
     """
     async with Docker() as docker:
         r2d_images = await docker.images.list(
-            filters=json.dumps(
-                {"dangling": ["false"], "label": ["repo2docker.ref"]}
-            )
+            filters=json.dumps({"dangling": ["false"], "label": ["repo2docker.ref"]})
         )
     images = [
         {
@@ -45,9 +43,7 @@ async def list_containers():
             "repo": container["Labels"]["repo2docker.repo"],
             "ref": container["Labels"]["repo2docker.ref"],
             "image_name": container["Labels"]["repo2docker.build"],
-            "display_name": container["Labels"][
-                "tljh_repo2docker.display_name"
-            ],
+            "display_name": container["Labels"]["tljh_repo2docker.display_name"],
             "mem_limit": container["Labels"]["tljh_repo2docker.mem_limit"],
             "cpu_limit": container["Labels"]["tljh_repo2docker.cpu_limit"],
             "status": "building",
@@ -140,9 +136,7 @@ async def build_image(
     if username and password:
         config.update(
             {
-                "Env": [
-                    f"GIT_CREDENTIAL_ENV=username={username}\npassword={password}"
-                ],
+                "Env": [f"GIT_CREDENTIAL_ENV=username={username}\npassword={password}"],
             }
         )
 

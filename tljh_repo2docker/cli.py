@@ -10,9 +10,7 @@ from tljh_repo2docker.docker import get_repo2docker_cmd
 @click.command()
 @click.option("--repo", help="The path for the repo to clone")
 @click.option("--ref", default="master", help="The branch/ref for the repo")
-@click.option(
-    "--name", default="", help="A unique name for the docker image generated"
-)
+@click.option("--name", default="", help="A unique name for the docker image generated")
 @click.option(
     "--memory",
     help="memory in GB to allocate when starting a container with this image",
@@ -50,5 +48,6 @@ def build_docker_image(repo, ref, name, memory=None, cpu=None, file=False):
             "Use build-image --help for usage details."
         )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     build_docker_image()

@@ -15,6 +15,7 @@ from jupyterhub.tests.mocking import MockHub
 from tljh_repo2docker import tljh_custom_jupyterhub_config
 from traitlets import Bunch
 
+
 class DummyConfig:
     def __getattr__(self, k):
         if k not in self.__dict__:
@@ -30,27 +31,27 @@ async def remove_docker_image(image_name):
             pass
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def minimal_repo():
     return "https://github.com/jtpio/test-binder"
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def minimal_repo_uppercase():
     return "https://github.com/jtpio/TEST-BINDER"
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def generated_image_name():
     return "jtpio-test-binder:master"
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def image_name():
     return "tljh-repo2docker-test:master"
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def app(request, io_loop):
     """
     Adapted from:
@@ -85,6 +86,7 @@ def remove_all_test_images(image_name, generated_image_name, io_loop):
     try:
         yield
     finally:
+
         async def _clean():
             await remove_docker_image(image_name)
             await remove_docker_image(generated_image_name)

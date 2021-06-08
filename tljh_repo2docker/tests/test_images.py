@@ -7,25 +7,25 @@ from .utils import add_environment, wait_for_image
 
 @pytest.mark.asyncio
 async def test_images_list_admin(app):
-    cookies = await app.login_user('admin')
-    r = await get_page('environments', app, cookies=cookies, allow_redirects=False)
+    cookies = await app.login_user("admin")
+    r = await get_page("environments", app, cookies=cookies, allow_redirects=False)
     r.raise_for_status()
-    assert 'Repository' in r.text
+    assert "Repository" in r.text
 
 
 @pytest.mark.asyncio
 async def test_images_list_not_admin(app):
-    cookies = await app.login_user('wash')
-    r = await get_page('environments', app, cookies=cookies, allow_redirects=False)
+    cookies = await app.login_user("wash")
+    r = await get_page("environments", app, cookies=cookies, allow_redirects=False)
     assert r.status_code == 403
 
 
 @pytest.mark.asyncio
 async def test_spawn_page(app, minimal_repo, image_name):
-    cookies = await app.login_user('admin')
+    cookies = await app.login_user("admin")
 
     # go to the spawn page
-    r = await get_page('spawn', app, cookies=cookies, allow_redirects=False)
+    r = await get_page("spawn", app, cookies=cookies, allow_redirects=False)
     r.raise_for_status()
     assert minimal_repo not in r.text
 
@@ -36,7 +36,7 @@ async def test_spawn_page(app, minimal_repo, image_name):
     await wait_for_image(image_name=image_name)
 
     # the environment should be on the page
-    r = await get_page('spawn', app, cookies=cookies, allow_redirects=False)
+    r = await get_page("spawn", app, cookies=cookies, allow_redirects=False)
     r.raise_for_status()
     assert r.status_code == 200
     assert minimal_repo in r.text
