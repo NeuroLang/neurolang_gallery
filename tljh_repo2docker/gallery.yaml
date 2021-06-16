@@ -51,7 +51,7 @@ examples:
     image_url: environments-static/images/vwfa.png
   ontology:
     title: Meta-analysis with ontologies
-    description: Explore potential associations betwen topics and coactivations between the visual word-form area (VWFA) and the frontoparietal attention network.
+    description: Use a biological ontology to find activation maps for a given term and its synonyms.
     path: gallery/Ontology.py
     repo_url: https://github.com/NeuroLang/neurolang_web
     image_name: neuroontology:ontology
