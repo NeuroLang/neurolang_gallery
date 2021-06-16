@@ -6,6 +6,11 @@ images:
     ref: master
     cpu: 2
     memory: 8
+  neuroontology:
+    repo: https://github.com/NeuroLang/neurolang_web
+    ref: ontology
+    cpu: 2
+    memory: 8
 # List of examples to display in the gallery. Each example must point to a docker image that is present
 # on the machine. Docker images are identified as `image_name:ref`
 examples:
@@ -44,6 +49,20 @@ examples:
     repo_url: https://github.com/NeuroLang/neurolang_web
     image_name: neuroweb:master
     image_url: environments-static/images/vwfa.png
+  ontology:
+    title: Meta-analysis with ontologies
+    description: Explore potential associations betwen topics and coactivations between the visual word-form area (VWFA) and the frontoparietal attention network.
+    path: gallery/Ontology.py
+    repo_url: https://github.com/NeuroLang/neurolang_web
+    image_name: neuroontology:ontology
+    image_url: environments-static/images/hbm_conf_ad.jpeg
+  neurosynth:
+    title: NeuroSynth
+    description: See how Neurolang can be used to run queris on coordinate-based meta-analysis (CBMA) Databases like Neurosynth.
+    path: gallery/NeuroSynth.py
+    repo_url: https://github.com/NeuroLang/neurolang_web
+    image_name: neuroweb:master
+    image_url: https://neurolang.github.io/_images/sphx_glr_plot_neurosynth_implementation_thumb.png
   destrieux:
     title: Destrieux
     description: Run queries using Neurolang library with destrieux cortical atlas (2009) dataset and explore results.
@@ -51,10 +70,3 @@ examples:
     repo_url: https://github.com/NeuroLang/neurolang_web
     image_name: neuroweb:master
     image_url: https://neurolang.github.io/_images/sphx_glr_plot_load_destrieux_datalog_ir_thumb.png
-  neurosynth:
-    title: NeuroSynth
-    description: Run queries using Neurolang library with neurosynth dataset and explore results.
-    path: gallery/NeuroSynth.py
-    repo_url: https://github.com/NeuroLang/neurolang_web
-    image_name: neuroweb:master
-    image_url: https://neurolang.github.io/_images/sphx_glr_plot_neurosynth_implementation_thumb.png
